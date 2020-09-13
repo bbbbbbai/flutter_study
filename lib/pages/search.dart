@@ -22,7 +22,6 @@ class _SearchState extends State<Search> with SingleTickerProviderStateMixin {
     _controller.dispose();
   }
 
-  bool _isLoading = false;
   @override
   Widget build(BuildContext context) {
     return connect((store) {
@@ -35,7 +34,7 @@ class _SearchState extends State<Search> with SingleTickerProviderStateMixin {
             Text(count.toString()),
             OutlineButton(
               onPressed: () {
-                store.dispatch(TestModule.IncrementAction(payload: 10));
+                store.dispatch(TestModule.TestAction(count: 10));
               },
               child: Text("点我"),
             ),

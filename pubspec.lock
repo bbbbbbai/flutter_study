@@ -273,6 +273,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "4.0.0+3"
+  redux_thunk:
+    dependency: "direct main"
+    description:
+      name: redux_thunk
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.3.0"
   sa_anicoto:
     dependency: transitive
     description:

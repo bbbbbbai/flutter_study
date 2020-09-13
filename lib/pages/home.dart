@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:loading_overlay/loading_overlay.dart';
+import 'package:my_app/common/common_data.dart';
 import 'package:my_app/store/index.dart';
-import '../store/index.dart' as BaseStore;
+import 'package:my_app/widget/connectWiget.dart';
+import 'package:redux/redux.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../module/test.dart' as TestModule;
 import '../module/tab.dart' as TabModule;
 
@@ -21,16 +23,33 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    getInfo();
+  }
+
+  getInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    print("COUNT ====== ${prefs.getInt(CommonData.COUNT)}");
   }
 
   bool _isLoading = false;
+  void action(Store<String> store) async {
+    final String searchResults = await Future.delayed(
+      Duration(seconds: 1),
+      () => "Search Results",
+    );
+
+    store.dispatch(searchResults);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<BaseStore.AppState, dynamic>(
-      converter: (store) {
+    return connect(
+      (store) {
         return store;
       },
-      builder: (context, store) {
+      (context, count, store) {
+        // store.dispatch(LoginStateModule.LoginStateActionAction(
+        //     actions: LoginStateModule.Actions.login));
         return LoadingOverlay(
           isLoading: _isLoading,
           child: Scaffold(
@@ -39,13 +58,20 @@ class _HomeState extends State<Home> {
               children: [
                 OutlineButton(
                   onPressed: () {
-                    store.dispatch(TestModule.IncrementAction(payload: 10));
+                    store.dispatch(TestModule.TestAction(count: 10));
                   },
                   child: Text("点我"),
+                ),
+                OutlineButton(
+                  onPressed: () {
+                    store.dispatch(TestModule.testActionAsync(store: store));
+                  },
+                  child: Text("点我async"),
                 ),
                 new Text(
                   store.state.test.count.toString(),
                 ),
+                new Text(store.state.loginState.authorizationToken)
               ],
             ),
           ),

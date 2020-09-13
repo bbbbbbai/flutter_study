@@ -7,6 +7,7 @@ import 'package:my_app/store/index.dart';
 import 'package:my_app/utils/utils.dart';
 import 'package:my_app/widget/connectWiget.dart';
 import '../module/tab.dart' as TabModule;
+import '../module/loginState.dart' as LoginStateModule;
 
 class TabPage extends StatefulWidget {
   @override
@@ -24,6 +25,8 @@ class _TabPageState extends State<TabPage> {
   @override
   void initState() {
     super.initState();
+    store.dispatch(LoginStateModule.LoginStateActionAction(
+        actions: LoginStateModule.Actions.logout));
     pages
       ..add(Home())
       ..add(Search())
@@ -97,6 +100,7 @@ class _TabPageState extends State<TabPage> {
 
   _getbodyPage(num, store) {
     store.dispatch(TabModule.IncrementAction(selectedIndex: num));
+
     var page;
     switch (store.state.tab.selectedIndex) {
       case 0:

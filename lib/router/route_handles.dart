@@ -17,7 +17,6 @@ var index1 = new Handler(
 });
 var index2 = new Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  print("params===>${params}");
   return Index2();
 });
 var index3 = new Handler(
